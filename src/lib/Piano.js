@@ -50,7 +50,14 @@ export default class Piano {
     
   };
 
-  releaseKey(releaseEvent) {
+  releaseKey(releaseEvent, currentOcatave) {
+
+    let key = this.keys.filter((item) => item.qwertyCode === releaseEvent.code && item.octaveNum === currentOcatave);
+    if(key.length === 0) {
+      return
+    }
+
+    key[0].releaseKey();
 
   };
 

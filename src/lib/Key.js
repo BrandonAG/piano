@@ -62,9 +62,11 @@ export default class Key {
     this.qwertyCode = qwertyCode;
     this.octaveNum = octaveNum;
     this.sound = new Howl({src: [`./audio/Piano.mf.${this.note}.mp3`]});
+    this.keyObj = new THREE.Object3D()
 
     if(note.length === 2) {
 
+      this.keyObj = new THREE.Object3D()
       this.keyMesh = new THREE.Mesh(new THREE.BoxGeometry(flatKeyWidth, flatKeyDepth, flatKeyLength));
       this.keyMesh.material = flatKeyMaterial;
       this.keyMesh.position.x = 0.289 + (flatKeyWidth / 2) + spaceBetweenKeys;
@@ -72,7 +74,9 @@ export default class Key {
       this.keyMesh.position.y = (flatKeyDepth - naturalKeyDepth) / 2;
       this.keyMesh.updateMatrix();
       this.keyMesh.castShadow = true;
-      this.keyMesh.position.x = (4 - octaveNum) * 7 * (naturalKeyWidth + spaceBetweenKeys) + positionOffsets[note];
+      this.keyMesh.position.x = (octaveNum - 4) * 7 * (naturalKeyWidth + spaceBetweenKeys) + positionOffsets[note];
+      this.keyMesh.position.z = flatKeyLength / 2;
+      this.keyMesh.position.y = flatKeyDepth / 2;
 
     } else {
 
@@ -94,25 +98,32 @@ export default class Key {
 
       this.keyMesh.material = naturalKeyMaterial;
       this.keyMesh.castShadow = true;
-      this.keyMesh.position.x = (4 - octaveNum) * 7 * (naturalKeyWidth + spaceBetweenKeys) + positionOffsets[note];
+      this.keyMesh.position.x = (octaveNum - 4) * 7 * (naturalKeyWidth + spaceBetweenKeys) + positionOffsets[note];
+      this.keyMesh.position.z = naturalKeyLength / 2;
+      this.keyMesh.position.y = naturalKeyDepth / 2;
 
     }
 
-    scene.add(this.keyMesh);
+    this.keyObj.add(this.keyMesh)
+    this.keyObj.position.z = -15;
+    this.keyObj.position.x = -3.125 * (naturalKeyWidth + spaceBetweenKeys);
+    this.keyObj.position.y = 0;
+    this.keyObj.rotation.x = 45 * Math.PI / 180;
+    scene.add(this.keyObj);
 
   };
 
   rotateKey(angle) {
-
+    this.keyObj.rotation.x += angle * Math.PI / 180;
   };
 
   playNote() {
-    // this.rotateKey(0);
+    this.rotateKey(8);
     this.sound.play();
   };
 
   releaseKey() {
-    this.rotateKey(15);
+    this.rotateKey(-8);
   };
 
 };

@@ -29,8 +29,8 @@ function App() {
     directionalLight.position.set(20, 10, 10);
     scene.add(directionalLight);
 
-    const lightHelper = new THREE.DirectionalLightHelper( directionalLight, 5 );
-    scene.add( lightHelper );
+    // const lightHelper = new THREE.DirectionalLightHelper( directionalLight, 5 );
+    // scene.add( lightHelper );
 
     const controls = new OrbitControls(camera, canvas);
     controls.enableDamping = true;
@@ -43,13 +43,13 @@ function App() {
     let currentOcatave = 4;
 
     const onKeyDown = (event) => {
-      if(event.key == 'ArrowLeft') {
+      if(event.key === 'ArrowLeft') {
         event.preventDefault();
         if(currentOcatave > piano.lowestOctave) {
           currentOcatave--;
         }
       }
-      if(event.key == 'ArrowRight') {
+      if(event.key === 'ArrowRight') {
         event.preventDefault();
         if(currentOcatave < piano.highestOctave) {
           currentOcatave++;
@@ -60,8 +60,15 @@ function App() {
       }
       piano.pressKey(event, currentOcatave);
     };
+
+    const onKeyUp = (event) => {
+      if(event.repeat) {
+        return;
+      }
+      piano.releaseKey(event, currentOcatave);
+    };
   
-    // window.addEventListener('keyup', onKeyUp);
+    window.addEventListener('keyup', onKeyUp);
     window.addEventListener('keydown', onKeyDown);
 
     function animate() {
