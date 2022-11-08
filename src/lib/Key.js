@@ -49,15 +49,14 @@ const naturalKeyMaterial = new THREE.MeshStandardMaterial({
 });
 
 const flatKeyMaterial = new THREE.MeshStandardMaterial({
-  // color: 0x100c08,
-  color: 'red',
-  metalness: 0.6,
+  color: 0x100c08,
+  metalness: 0.2,
   roughness: 0.0
 });
 
 export default class Key {
 
-  constructor(scene, note, qwertyCode, octaveNum) {
+  constructor(scene, pianoGroup, note, qwertyCode, octaveNum) {
     this.note = note + octaveNum;
     this.qwertyCode = qwertyCode;
     this.octaveNum = octaveNum;
@@ -105,16 +104,12 @@ export default class Key {
     }
 
     this.keyObj.add(this.keyMesh)
-    this.keyObj.position.z = -15;
-    this.keyObj.position.x = -3.125 * (naturalKeyWidth + spaceBetweenKeys);
-    this.keyObj.position.y = 0;
-    this.keyObj.rotation.x = 45 * Math.PI / 180;
-    scene.add(this.keyObj);
+    pianoGroup.add(this.keyObj);
 
   };
 
   rotateKey(angle) {
-    this.keyObj.rotation.x += angle * Math.PI / 180;
+    this.keyObj.rotation.x = angle * Math.PI / 180;
   };
 
   playNote() {
@@ -123,7 +118,7 @@ export default class Key {
   };
 
   releaseKey() {
-    this.rotateKey(-8);
+    this.rotateKey(0);
   };
 
 };

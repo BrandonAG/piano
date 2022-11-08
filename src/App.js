@@ -24,12 +24,12 @@ function App() {
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
     scene.add(ambientLight);
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
-    directionalLight.castShadow = true;
-    directionalLight.position.set(20, 10, 10);
-    scene.add(directionalLight);
+    const spotLight = new THREE.SpotLight(0xffffff, 1.5);
+    spotLight.castShadow = true;
+    spotLight.position.set(0, 10, 10);
+    scene.add(spotLight);
 
-    // const lightHelper = new THREE.DirectionalLightHelper( directionalLight, 5 );
+    // const lightHelper = new THREE.SpotLightHelper( spotLight, 5 );
     // scene.add( lightHelper );
 
     const controls = new OrbitControls(camera, canvas);
@@ -70,6 +70,21 @@ function App() {
   
     window.addEventListener('keyup', onKeyUp);
     window.addEventListener('keydown', onKeyDown);
+
+    window.addEventListener('resize', () =>
+    {
+      // Update sizes
+      sizes.width = window.innerWidth
+      sizes.height = window.innerHeight
+
+      // Update camera
+      camera.aspect = sizes.width / sizes.height
+      camera.updateProjectionMatrix()
+
+      // Update renderer
+      renderer.setSize(sizes.width, sizes.height)
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    })
 
     function animate() {
       requestAnimationFrame( animate );
