@@ -30,3 +30,7 @@ From the repo directory run the following command.
 ```
 npm start
 ```
+
+## Example Deployment
+
+[Play Piano](https://brandonag.github.io/piano/)
