@@ -34,3 +34,5 @@ npm start
 ## Example Deployment
 
 [Play Piano](https://brandonag.github.io/piano/)
+
+![Piano Example](https://github.com/BrandonAG/piano/blob/main/piano.PNG?raw=true)
